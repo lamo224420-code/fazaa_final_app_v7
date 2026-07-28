@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fazaa-app-v8-official-logo-v2';
+const CACHE_NAME = 'fazaa-app-v8-2-first-payment-dashboard-v1';
 const APP_SHELL = [
   './',
   './index.html',
