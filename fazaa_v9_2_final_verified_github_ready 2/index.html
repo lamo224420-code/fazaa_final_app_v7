@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>فزعة V9.2 —  | إدارة الطلبات</title>
+<meta name="application-name" content="فزعة">
+<meta name="apple-mobile-web-app-title" content="فزعة">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="description" content="نظام فزعة لإدارة الطلبات والموظفات والتقارير.">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:type" content="website">
+<meta property="og:title" content="تطبيق فزعة">
+<meta property="og:description" content="نظام فزعة لإدارة الطلبات والموظفات والتقارير.">
+<meta property="og:url" content="https://2-1-seven.vercel.app/">
+<meta property="og:image" content="https://2-1-seven.vercel.app/assets/og-image.png?v=2">
+<meta property="og:image:secure_url" content="https://2-1-seven.vercel.app/assets/og-image.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="شعار فزعة الرسمي">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="تطبيق فزعة">
+<meta name="twitter:description" content="نظام فزعة لإدارة الطلبات والموظفات والتقارير.">
+<meta name="twitter:image" content="https://2-1-seven.vercel.app/assets/og-image.png?v=2">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3"></script>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#172033;--muted:#7b8599;--line:#e7ebf2;--nav:#111827;--nav2:#182235;--blue:#4f46e5;--cyan:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--shadow:0 12px 32px rgba(20,30,55,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Tahoma,Arial,sans-serif;color:var(--ink)}button,input,select,textarea{font:inherit}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top right,#334155,#0f172a 60%);padding:18px}.login-card{width:min(430px,100%);background:#fff;border-radius:24px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.32)}.logo{font-size:45px;font-weight:900;text-align:center}.logo-img{display:block;width:230px;max-width:72%;height:auto;margin:0 auto 8px}.sub{text-align:center;color:var(--muted);margin:6px 0 24px}
+.field{display:grid;gap:7px}.field label{font-size:13px;font-weight:800;color:#536075}.field input,.field select,.field textarea{padding:12px 13px;border:1px solid #dce3ec;border-radius:11px;outline:none;background:#fff}.field input:focus,.field select:focus,.field textarea:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:800;cursor:pointer}.primary{background:var(--blue);color:#fff}.soft{background:#eef0ff;color:#4338ca}.danger{background:#fff0f0;color:#dc2626}.sm{padding:7px 10px;font-size:12px}
+.error{background:#fff0f0;color:#b91c1c;border-radius:10px;padding:10px;margin-top:12px}
+.sidebar{position:fixed;right:0;top:0;bottom:0;width:255px;background:linear-gradient(180deg,var(--nav),var(--nav2));padding:22px 17px;color:#fff;z-index:50;overflow:auto}.brand{display:flex;align-items:center;gap:10px;font-size:25px;font-weight:900}.brand img{width:48px;height:48px;object-fit:contain;border-radius:13px;background:#fff;padding:4px}.brand-sub{opacity:.6;font-size:12px;margin:3px 0 22px}.side-user{padding:14px;background:rgba(255,255,255,.06);border-radius:14px;margin-bottom:15px}.side-user b{display:block}.side-user span{font-size:12px;opacity:.65}
+.nav{display:grid;gap:5px}.nav button{border:0;color:#d4d9e5;background:transparent;text-align:right;padding:12px 13px;border-radius:11px;cursor:pointer}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#3f3cbb,#2563a9);color:#fff}.logout{width:100%;margin-top:24px;border:1px solid rgba(255,255,255,.15);background:transparent;color:#ffb2b2;padding:11px;border-radius:10px}
+.main{margin-right:255px}.topbar{position:sticky;top:0;z-index:20;height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px}.topbar h1{font-size:23px;margin:0}.topbar small{color:var(--muted)}.menu{display:none;border:0;background:#eef2f7;padding:9px 11px;border-radius:9px}.content{padding:21px;max-width:1500px;margin:auto}.page{display:none}.page.active{display:block}
+.hero{border-radius:22px;background:linear-gradient(125deg,#3730a3,#2563eb 58%,#06b6d4);color:#fff;padding:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);margin-bottom:15px}.hero h2{margin:5px 0 8px;font-size:29px}.hero p{margin:0;opacity:.8}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:var(--shadow)}.kpi{position:relative;overflow:hidden}.kpi:before{content:"";position:absolute;width:80px;height:80px;border-radius:50%;left:-22px;top:-28px;background:rgba(79,70,229,.08)}.kpi-title{font-size:12px;color:var(--muted)}.kpi-value{font-size:24px;font-weight:900;margin-top:10px}.green{color:#059669}.blue{color:#4338ca}.orange{color:#d97706}
+.grid2{display:grid;grid-template-columns:1.5fr .8fr;gap:14px;margin-top:14px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.section-head h3{margin:0}.muted{color:var(--muted)}
+.employee-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.employee-card{border:1px solid var(--line);border-radius:14px;padding:13px;cursor:pointer;transition:.18s}.employee-card:hover{transform:translateY(-2px);border-color:#a5b4fc;box-shadow:0 8px 20px rgba(79,70,229,.1)}.employee-card b{display:block}.employee-card small{color:var(--muted)}.employee-card strong{display:block;margin-top:8px;color:#4338ca}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:13px}.table{border-collapse:collapse;width:100%;min-width:900px}.table th,.table td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}.table th{font-size:12px;color:var(--muted);background:#fafbfe}.table td{font-size:13px}.link{color:#4338ca;font-weight:800;cursor:pointer}.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.new{background:#eef2ff;color:#4338ca}.confirmed,.completed{background:#ecfdf5;color:#047857}.follow_up{background:#fff7ed;color:#c2410c}.cancelled{background:#fef2f2;color:#b91c1c}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.span2{grid-column:span 2}.span3{grid-column:span 3}.calc{background:#f5f7ff;border:1px solid #dfe3ff;padding:14px;border-radius:12px}.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}.filters input,.filters select{padding:10px;border:1px solid var(--line);border-radius:10px}.empty{text-align:center;color:var(--muted);padding:28px}
+.modal-bg{position:fixed;inset:0;background:rgba(8,15,28,.62);z-index:100;display:grid;place-items:center;padding:15px}.modal{background:#fff;border-radius:20px;width:min(950px,100%);max-height:91vh;overflow:auto;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.modal-head h3{margin:0}.close{border:0;background:#eef2f7;border-radius:8px;padding:7px 10px;cursor:pointer}.summary4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:13px}.toast{position:fixed;left:17px;bottom:17px;background:#172033;color:#fff;padding:12px 16px;border-radius:11px;z-index:200}
+.chart-box{height:300px}.offer-box{display:flex;align-items:center;justify-content:space-between;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:14px;padding:15px}.offer-box strong{font-size:20px;color:#5b21b6}
+.daily-head{border-radius:24px;background:linear-gradient(125deg,#312e81,#4338ca 52%,#0f766e);color:#fff;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 18px 45px rgba(49,46,129,.20);margin-bottom:15px;overflow:hidden;position:relative}.daily-head:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;left:-85px;top:-110px;background:rgba(255,255,255,.10)}.daily-head h2{font-size:30px;margin:5px 0 7px}.daily-head p{margin:0;opacity:.78}.daily-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:1}.update-pill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);padding:9px 12px;border-radius:999px;font-size:12px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.3px;opacity:.75}.daily-kpis .kpi{min-height:125px}.metric-note{font-size:11px;color:var(--muted);margin-top:6px}.kpi-icon{width:34px;height:34px;border-radius:10px;background:#eef2ff;display:grid;place-items:center;font-size:17px;margin-bottom:8px}.insight-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}.insight-card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:var(--shadow);min-width:0;position:relative;overflow:hidden}.insight-card:before{content:"";position:absolute;right:-24px;bottom:-34px;width:90px;height:90px;border-radius:50%;background:rgba(79,70,229,.06)}.insight-label{font-size:12px;color:var(--muted);font-weight:800}.insight-value{font-size:20px;font-weight:900;margin-top:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.insight-meta{font-size:12px;color:#6366f1;margin-top:7px;font-weight:800}.dashboard-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:14px;margin-top:14px}.employee-performance{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.employee-rank-card{border:1px solid var(--line);border-radius:15px;padding:14px;cursor:pointer;background:linear-gradient(180deg,#fff,#fbfcff);transition:.18s}.employee-rank-card:hover{transform:translateY(-2px);border-color:#a5b4fc;box-shadow:0 10px 24px rgba(79,70,229,.10)}.employee-rank-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.employee-rank-top b{font-size:15px}.rank-badge{min-width:29px;height:29px;border-radius:9px;background:#eef2ff;color:#4338ca;display:grid;place-items:center;font-size:12px;font-weight:900}.employee-orders{font-size:25px;font-weight:900;color:#312e81;margin:10px 0 4px}.employee-substats{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px;margin-top:9px}.progress{height:7px;border-radius:999px;background:#eef1f6;overflow:hidden;margin-top:9px}.progress-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,#4f46e5,#06b6d4);min-width:0}.status-list{display:grid;gap:9px}.status-row,.rank-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.status-row:last-child,.rank-row:last-child{border-bottom:0}.status-name{display:flex;align-items:center;gap:8px}.status-dot{width:9px;height:9px;border-radius:50%}.status-dot.new{background:#6366f1}.status-dot.confirmed,.status-dot.completed{background:#10b981}.status-dot.follow_up{background:#f59e0b}.status-dot.cancelled{background:#ef4444}.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.quick-box{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px}.quick-box span{display:block;color:var(--muted);font-size:11px}.quick-box b{display:block;margin-top:6px;font-size:16px}.first-payment-panel{margin-top:14px}.first-payment-total{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:900;white-space:nowrap}.supervisor-payment-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.supervisor-payment-card{border:1px solid var(--line);border-radius:15px;padding:14px;background:linear-gradient(180deg,#fff,#fffaf5);cursor:pointer;transition:.18s;min-width:0}.supervisor-payment-card:hover{transform:translateY(-2px);border-color:#fdba74;box-shadow:0 10px 24px rgba(234,88,12,.10)}.supervisor-payment-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.supervisor-payment-top b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.supervisor-payment-count{font-size:11px;color:var(--muted);background:#f8fafc;border-radius:999px;padding:5px 8px}.supervisor-payment-amount{display:block;margin-top:12px;font-size:20px;font-weight:900;color:#c2410c}.supervisor-payment-hint{font-size:11px;color:var(--muted);margin-top:7px}.formula-note{margin-top:10px;padding:11px 13px;border-radius:12px;background:#f8fafc;border:1px dashed #cbd5e1;color:#536075;font-size:12px}.formula-note b{color:#172033}.distribution-list{display:grid;gap:11px;margin-top:12px}.distribution-row{display:grid;gap:7px}.distribution-line{display:flex;justify-content:space-between;gap:10px;font-size:13px}.distribution-line b{white-space:nowrap}.distribution-row .progress{margin-top:0}.report-feature{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.feature-tile{border-radius:14px;padding:14px;background:#f8fafc;border:1px solid var(--line)}.feature-tile span{display:block;color:var(--muted);font-size:11px}.feature-tile strong{display:block;margin-top:7px;font-size:18px;color:#312e81;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.manage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.manage-list{display:grid;gap:9px}.manage-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:1px solid var(--line);border-radius:13px;background:#fff}.manage-row.inactive{background:#fafafa;opacity:.78}.manage-info{min-width:0}.manage-info b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.manage-info small{display:block;color:var(--muted);margin-top:4px}.manage-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.notice{background:#fffbeb;border-color:#fde68a;color:#92400e}.subhead{margin:16px 0 8px;font-size:13px;color:var(--muted)}.date-note{font-size:11px;color:var(--muted);margin-top:4px}.archived-label{display:inline-block;background:#f3f4f6;color:#6b7280;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800}
+@media(max-width:1200px){.supervisor-payment-grid{grid-template-columns:repeat(2,1fr)}.manage-grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(3,1fr)}.employee-cards{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}.span3{grid-column:span 2}.insight-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.supervisor-payment-grid{grid-template-columns:1fr 1fr}.sidebar{transform:translateX(105%);transition:.25s;width:275px}.sidebar.open{transform:none}.main{margin-right:0}.menu{display:block}.topbar{padding:0 13px}.content{padding:13px}.hero{display:block}.hero .btn{margin-top:13px}.daily-head{display:block;padding:20px}.daily-head h2{font-size:25px}.daily-actions{margin-top:15px}.kpis{grid-template-columns:1fr 1fr}.daily-kpis .kpi{min-height:116px;padding:14px}.kpi-value{font-size:20px}.grid2,.dashboard-grid{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr 1fr}.employee-cards{grid-template-columns:1fr 1fr}.employee-performance{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.span2,.span3{grid-column:span 1}.summary4{grid-template-columns:1fr 1fr}.report-feature{grid-template-columns:1fr}.table{min-width:820px}}
+@media(max-width:430px){.supervisor-payment-grid{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.kpis{gap:9px}.daily-kpis .kpi{min-height:110px}.quick-grid{grid-template-columns:1fr 1fr}}
+
+.install-app{width:100%;margin-top:12px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.08);color:#fff;padding:11px;border-radius:10px;font-weight:800;cursor:pointer}.install-app:hover{background:rgba(255,255,255,.14)}
+.install-login{width:100%;margin-top:12px;border:1px solid #dfe3ff;background:#f5f7ff;color:#4338ca;padding:11px;border-radius:10px;font-weight:900;cursor:pointer}.install-hint{text-align:center;color:var(--muted);font-size:11px;margin:8px 0 0}.install-steps{display:grid;gap:11px;margin-top:16px}.install-step{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:13px;background:#fafbff}.install-step b{display:grid;place-items:center;min-width:28px;height:28px;border-radius:9px;background:#eef2ff;color:#4338ca}.online-pill{position:fixed;left:14px;top:14px;z-index:250;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:900;box-shadow:0 8px 24px rgba(15,23,42,.18)}.online-pill.offline{background:#fff1f2;color:#be123c;border:1px solid #fecdd3}.online-pill.online{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
+@media(display-mode:standalone){.install-app,.install-login,.install-hint{display:none!important}}
+
+
+/* V9.2 — Mobile orders and Noon manual profit */
+.noon-profit-field{border:1px solid #fed7aa;background:#fff7ed;border-radius:14px;padding:12px}.noon-profit-field label{color:#c2410c}.noon-profit-editor{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px;border:1px solid #fed7aa;background:#fff7ed;border-radius:14px;margin-top:12px}.noon-profit-editor input{flex:1;min-width:150px;background:#fff}.orders-count{font-size:12px;color:var(--muted);font-weight:800;margin:0 0 12px}.order-cards{display:grid;gap:14px}.order-card{background:#fff;border:1px solid var(--line);border-right:5px solid #6366f1;border-radius:22px;padding:18px;box-shadow:0 12px 30px rgba(30,41,59,.08)}.order-card-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.order-customer{font-size:19px;font-weight:900;color:#172033}.order-phone,.order-date,.order-id{font-size:12px;color:var(--muted);margin-top:5px}.order-amount{font-size:21px;font-weight:900;color:#312e81;white-space:nowrap;text-align:left}.order-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:15px}.order-field{border:1px solid var(--line);background:#fafbff;border-radius:14px;padding:11px}.order-field span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.order-field b{font-size:14px}.first-payment-strip{margin-top:12px;padding:11px 13px;border-radius:14px;background:#ecfdf5;border:1px solid #a7f3d0;color:#047857;font-weight:900}.first-payment-strip.none{background:#f8fafc;border-color:#e2e8f0;color:#64748b}.finance-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.finance-box{background:#f8fafc;border-radius:13px;padding:10px;text-align:center}.finance-box span{display:block;font-size:10px;color:var(--muted)}.finance-box b{display:block;margin-top:5px;font-size:14px}.order-card-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid var(--line);padding-top:13px;margin-top:14px}.noon-profit-saved{padding:11px 13px;border-radius:14px;background:#ecfdf5;border:1px solid #a7f3d0;color:#047857;font-weight:900;margin-top:12px}
+@media(max-width:760px){.order-card{padding:15px;border-radius:19px}.order-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.order-customer{font-size:17px}.order-amount{font-size:18px}.finance-strip{grid-template-columns:repeat(3,minmax(0,1fr))}.finance-box b{font-size:12px}.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}}
+
+</style>
+</head>
+<body>
+<section id="loginView" class="login">
+<form id="loginForm" class="login-card">
+<img class="logo-img" src="./assets/fazaa-logo-full.png" alt="شعار فزعة الرسمي"><div class="sub">نظام إدارة الطلبات والمبيعات</div>
+<div class="field"><label>اسم المستخدم أو البريد الإلكتروني</label><input id="email" type="text" value="admin" required autocomplete="username"></div>
+<div class="field" style="margin-top:12px"><label>كلمة المرور</label><input id="password" type="password" required autocomplete="current-password"></div>
+<button class="btn primary" style="width:100%;margin-top:16px">تسجيل الدخول</button><div id="loginError" class="error hidden"></div><button id="installAppLogin" type="button" class="install-login">تثبيت تطبيق فزعة على الجوال</button><p class="install-hint">يظهر كتطبيق مستقل باسم وشعار فزعة</p>
+</form>
+</section>
+
+<section id="appView" class="hidden">
+<aside id="sidebar" class="sidebar"><div class="brand"><img src="./assets/fazaa-logo-symbol.png" alt="شعار فزعة"><span>فزعة</span></div><div class="brand-sub">الإدارة الذكية للطلبات</div><div class="side-user"><b id="sideName"></b><span id="sideRole"></span></div>
+<nav class="nav"><button class="admin-only active" data-page="dashboard">لوحة التحكم</button><button data-page="new-order">إضافة طلب</button><button data-page="orders">الطلبات</button><button class="admin-only" data-page="customers">العملاء</button><button class="admin-only" data-page="reports">التقارير</button><button class="admin-only" data-page="employees">الموظفات</button><button class="admin-only" data-page="catalog">إدارة الخيارات</button><button data-page="settings">إعدادات الحساب</button></nav><button id="installApp" class="install-app">تثبيت التطبيق</button><button id="logout" class="logout">تسجيل الخروج</button></aside>
+<main class="main"><header class="topbar"><div style="display:flex;gap:10px;align-items:center"><button id="menu" class="menu">☰</button><div><h1 id="pageTitle">لوحة التحكم</h1><small id="dateText"></small></div></div><b id="topName"></b></header><div class="content">
+
+<section id="page-dashboard" class="page active admin-only">
+<div class="daily-head">
+  <div><div class="eyebrow">التقرير اليومي التنفيذي</div><h2>ملخص أداء اليوم</h2><p id="dashboardDateLabel">من بداية اليوم حتى الآن</p></div>
+  <div class="daily-actions"><span id="lastUpdated" class="update-pill">آخر تحديث الآن</span><button id="refresh" class="btn soft">تحديث البيانات</button></div>
+</div>
+<div class="kpis daily-kpis">
+  <div class="card kpi"><div class="kpi-icon">↗</div><div class="kpi-title">إجمالي التحويلات</div><div id="kTransfer" class="kpi-value blue">0</div><div class="metric-note">اليوم فقط</div></div>
+  <div class="card kpi"><div class="kpi-icon">٪</div><div class="kpi-title">إجمالي الخصم للنسب</div><div id="kFees" class="kpi-value orange">0</div><div class="metric-note">رسوم المتاجر والخدمات</div></div>
+  <div class="card kpi"><div class="kpi-icon">★</div><div class="kpi-title">إجمالي الربح</div><div id="kProfit" class="kpi-value green">0</div><div class="metric-note">بعد خصم الرسوم والدفعات الأولى والكاش باك</div></div>
+  <div class="card kpi"><div class="kpi-icon">#</div><div class="kpi-title">عدد الطلبات</div><div id="kOrders" class="kpi-value">0</div><div class="metric-note">الطلبات غير الملغاة</div></div>
+  <div class="card kpi"><div class="kpi-icon">﷼</div><div class="kpi-title">قيمة الطلبات</div><div id="kSales" class="kpi-value">0</div><div class="metric-note">إجمالي مبيعات اليوم</div></div>
+  <div class="card kpi"><div class="kpi-icon">+</div><div class="kpi-title">العملاء الجدد</div><div id="kCustomers" class="kpi-value orange">0</div><div class="metric-note">أول طلب لهم اليوم</div></div>
+  <div class="card kpi"><div class="kpi-icon">◉</div><div class="kpi-title">إجمالي الدفعات الأولى</div><div id="kFirstPayments" class="kpi-value orange">0</div><div class="metric-note">ما دفعته الإدارة اليوم</div></div>
+  <div class="card kpi"><div class="kpi-icon">#</div><div class="kpi-title">طلبات بدفعة أولى</div><div id="kFirstPaymentOrders" class="kpi-value">0</div><div class="metric-note">الطلبات غير الملغاة</div></div>
+</div>
+<div class="card first-payment-panel">
+  <div class="section-head"><div><h3>الدفعات الأولى حسب المشرف اليوم</h3><div class="muted">يوضح عدد الطلبات وإجمالي ما دفعه كل مشرف — اضغطي على المشرف لعرض التفاصيل</div></div><div id="firstPaymentSummary" class="first-payment-total">0 طلب • 0.00 ر.س</div></div>
+  <div id="supervisorPayments" class="supervisor-payment-grid"></div>
+  <div class="formula-note"><b>طريقة احتساب صافي الربح:</b> قيمة الطلبات − التحويلات − الرسوم − الدفعات الأولى − الكاش باك.</div>
+</div>
+<div class="insight-grid">
+  <div class="insight-card"><div class="insight-label">العرض الأكثر طلبًا اليوم</div><div id="bestOfferName" class="insight-value">—</div><div id="bestOfferMeta" class="insight-meta">لا توجد بيانات</div></div>
+  <div class="insight-card"><div class="insight-label">المتجر الأكثر مبيعًا اليوم</div><div id="bestStoreName" class="insight-value">—</div><div id="bestStoreMeta" class="insight-meta">لا توجد بيانات</div></div>
+  <div class="insight-card"><div class="insight-label">الموظفة الأعلى أداءً</div><div id="topEmployeeName" class="insight-value">—</div><div id="topEmployeeMeta" class="insight-meta">لا توجد بيانات</div></div>
+  <div class="insight-card"><div class="insight-label">طريقة الدفع الأكثر استخدامًا</div><div id="topPaymentName" class="insight-value">—</div><div id="topPaymentMeta" class="insight-meta">لا توجد بيانات</div></div>
+</div>
+<div class="dashboard-grid">
+  <div class="card"><div class="section-head"><div><h3>عدد طلبات كل موظفة اليوم</h3><div class="muted">ترتيب مباشر حسب عدد الطلبات</div></div></div><div id="employeeCards" class="employee-performance"></div></div>
+  <div class="card"><div class="section-head"><h3>حالة طلبات اليوم</h3></div><div id="dailyStatus" class="status-list"></div><div class="section-head" style="margin-top:18px"><h3>مؤشرات سريعة</h3></div><div id="dailyQuickStats" class="quick-grid"></div></div>
+</div>
+<div class="card" style="margin-top:14px"><div class="section-head"><div><h3>أحدث طلبات اليوم</h3><div class="muted">آخر العمليات المسجلة</div></div><button class="btn soft sm" data-go="orders">عرض جميع الطلبات</button></div><div id="latestOrders"></div></div>
+</section>
+
+<section id="page-new-order" class="page"><div class="card"><div class="section-head"><h3>إضافة طلب جديد</h3></div><form id="orderForm" class="form-grid">
+<div class="field"><label>اسم العميل</label><input id="customerName" required></div><div class="field"><label>رقم الجوال</label><input id="customerPhone" required></div><div class="field"><label>تاريخ الطلب</label><input id="orderDate" type="date" required><div class="date-note">الافتراضي اليوم ويمكن اختيار أمس أو أي تاريخ سابق</div></div><div class="field"><label>وقت الطلب</label><input id="orderTime" type="time" required><div class="date-note">الافتراضي وقت التسجيل الحالي</div></div><div class="field"><label>المتجر</label><select id="store" required></select></div><div class="field"><label>طريقة الدفع</label><select id="paymentMethod" required></select></div>
+<div id="manualProfitBox" class="field noon-profit-field hidden"><label>ربح نون تكامل اليدوي</label><input id="manualProfit" type="number" min="0" step=".01" placeholder="اكتبي مبلغ فائدتك"></div>
+<div class="field"><label>قيمة الطلب</label><input id="orderAmount" type="number" min="0" step=".01" required></div><div class="field"><label>الباقة</label><select id="package"><option value="">أخرى</option></select></div><div class="field"><label>قيمة الباقة</label><input id="packageValue" type="number" min="0" step=".01"></div>
+<div class="field"><label>إجمالي الأقساط</label><input id="installments" type="number" min="0" step=".01"></div><div class="field"><label>دفعة أولى؟</label><select id="hasFirst"><option value="false">لا</option><option value="true">نعم</option></select></div><div id="firstBox" class="field hidden"><label>قيمة الدفعة الأولى</label><input id="firstAmount" type="number" min="0" step=".01" value="0"></div>
+<div id="supervisorBox" class="field hidden"><label>المشرف</label><select id="supervisor"><option value="">اختر</option><option>مشرف 1</option><option>مشرف 2</option><option>مشرف 3</option></select></div><div class="field"><label>الكاش باك</label><input id="cashback" type="number" min="0" step=".01" value="0"></div><div class="field"><label>العرض</label><select id="offer"></select></div>
+<div class="field"><label>الحالة</label><select id="status"><option value="new">جديد</option><option value="confirmed">مؤكد</option><option value="follow_up">متابعة</option><option value="completed">مكتمل</option><option value="cancelled">ملغي</option></select></div><div id="receiptBox" class="field hidden"><label>الإيصال</label><input id="receipt" type="file" accept="image/*,application/pdf"></div><div class="field span3"><label>ملاحظات</label><textarea id="notes"></textarea></div>
+<div class="span3 calc"><b>مبلغ التحويل المفترض:</b> <span id="transferPreview">0.00 ر.س</span><span class="admin-only"><br><b>رسوم الخدمة:</b> <span id="feePreview">0.00 ر.س</span><br><b>صافي الربح المتوقع:</b> <span id="profitPreview">0.00 ر.س</span></span></div><div class="span3"><button id="saveOrder" class="btn primary">حفظ الطلب</button></div></form></div></section>
+
+<section id="page-orders" class="page"><div class="card"><div class="section-head"><h3>الطلبات</h3><button class="btn primary" data-go="new-order">+ طلب جديد</button></div><div class="filters"><input id="search" placeholder="بحث باسم العميل أو الجوال"><select id="filterStatus"><option value="">كل الحالات</option><option value="new">جديد</option><option value="confirmed">مؤكد</option><option value="follow_up">متابعة</option><option value="completed">مكتمل</option><option value="cancelled">ملغي</option></select><select id="filterFirst"><option value="">كل الدفعات الأولى</option><option value="yes">مع دفعة أولى</option><option value="no">بدون دفعة أولى</option></select></div><div id="ordersCount" class="orders-count"></div><div id="ordersTable"></div></div></section>
+
+<section id="page-customers" class="page admin-only"><div class="card"><div class="section-head"><h3>العملاء</h3><span class="muted">اضغطي على اسم العميل لعرض سجلّه</span></div><div id="customersTable"></div></div></section>
+<section id="page-reports" class="page admin-only">
+<div class="card">
+  <div class="section-head">
+    <div><h3>التقارير</h3><div class="muted">اختاري الفترة لعرض النتائج</div></div>
+  </div>
+  <div class="filters">
+    <select id="reportPreset">
+      <option value="week">آخر 7 أيام</option>
+      <option value="month">هذا الشهر</option>
+      <option value="year">هذه السنة</option>
+      <option value="custom">من تاريخ إلى تاريخ</option>
+    </select>
+    <input id="reportFrom" type="date" class="hidden">
+    <input id="reportTo" type="date" class="hidden">
+    <select id="reportEmployee"><option value="">كل الموظفات</option></select>
+    <select id="reportStore"><option value="">كل المتاجر</option></select>
+    <select id="reportOffer"><option value="">كل العروض</option></select>
+    <button id="applyReport" class="btn primary">تطبيق</button>
+  </div>
+</div>
+
+<div class="kpis" style="margin-top:14px;grid-template-columns:repeat(5,minmax(160px,1fr))">
+  <div class="card kpi"><div class="kpi-title">عدد الطلبات</div><div id="repOrders" class="kpi-value">0</div></div>
+  <div class="card kpi"><div class="kpi-title">قيمة الطلبات</div><div id="repSales" class="kpi-value">0</div></div>
+  <div class="card kpi"><div class="kpi-title">التحويلات</div><div id="repTransfers" class="kpi-value blue">0</div></div>
+  <div class="card kpi"><div class="kpi-title">رسوم الخدمة</div><div id="repFees" class="kpi-value">0</div></div>
+  <div class="card kpi"><div class="kpi-title">صافي الربح</div><div id="repProfit" class="kpi-value green">0</div></div>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <div class="section-head"><h3>تحليل الباقات</h3></div>
+    <div class="report-feature"><div id="topPackage" class="feature-tile"><span>الباقة الأكثر مبيعًا</span><strong>—</strong></div><div id="topReportOffer" class="feature-tile"><span>العرض الأكثر استخدامًا</span><strong>—</strong></div></div>
+    <div class="section-head"><h3>توزيع الباقات</h3></div><div id="packageDistribution" class="distribution-list"></div>
+  </div>
+  <div class="card">
+    <div class="section-head"><h3>تحليل المتاجر</h3></div>
+    <div id="topReportStore" class="feature-tile"><span>المتجر الأعلى مبيعًا</span><strong>—</strong></div>
+    <div class="section-head" style="margin-top:18px"><h3>توزيع الطلبات حسب المتجر</h3></div><div id="reportStoreDistribution" class="distribution-list"></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <div class="section-head"><h3>تفاصيل التقرير</h3><span id="reportRangeText" class="muted"></span></div>
+  <div id="reportTable"></div>
+</div>
+</section>
+<section id="page-employees" class="page admin-only"><div class="card"><div class="section-head"><h3>الموظفات</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="seedEmployees" class="btn soft">تهيئة الموظفات الثماني</button><button id="addEmployee" class="btn primary">+ إضافة موظفة</button></div></div><div id="employeesTable"></div></div></section>
+<section id="page-catalog" class="page admin-only">
+<div class="card notice"><b>إدارة آمنة للخيارات</b><div style="margin-top:5px;font-size:13px">الحذف هنا يوقف الخيار ويخفيه عن الطلبات الجديدة، مع إبقائه في الطلبات والتقارير القديمة. ويمكن استعادته لاحقًا.</div></div>
+<div class="manage-grid">
+ <div class="card"><div class="section-head"><h3>المتاجر</h3><button id="addStore" class="btn primary sm">+ متجر</button></div><div id="storesTable"></div></div>
+ <div class="card"><div class="section-head"><h3>العروض</h3><button id="addOffer" class="btn primary sm">+ عرض</button></div><div id="offersTable"></div></div>
+ <div class="card"><div class="section-head"><h3>الباقات والأسعار</h3><button id="addPackage" class="btn primary sm">+ باقة</button></div><div id="packagesTable"></div></div>
+ <div class="card"><div class="section-head"><h3>طرق الدفع</h3><button id="addPaymentMethod" class="btn primary sm">+ طريقة</button></div><div id="paymentMethodsTable"></div></div>
+</div></section>
+<section id="page-settings" class="page"><div class="card" style="max-width:620px"><h3>تغيير كلمة المرور</h3><form id="passwordForm"><div class="field"><label>كلمة المرور الجديدة</label><input id="newPassword" type="password" minlength="8" required></div><button class="btn primary" style="margin-top:13px">حفظ</button></form></div></section>
+</div></main></section>
+<div id="modalRoot"></div><div id="toast" class="toast hidden"></div><div id="networkStatus" class="online-pill hidden"></div>
+
+<script>
+const SUPABASE_URL="https://zhophfxpkffubtpltopb.supabase.co",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpob3BoZnhwa2ZmdWJ0cGx0b3BiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0MzYxMDQsImV4cCI6MjEwMDAxMjEwNH0.Rr2BF02HdhdJ6OkFdNY_hl4S6kI7fkPCS3bhoxa-Qn0";
+const {createClient}=supabase,db=createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let user=null,profile=null,stores=[],packages=[],offers=[],paymentMethods=[],paymentMethodsReady=true,orders=[],profiles=[],profitChart=null,storeChart=null,packageChart=null,reportStoreChart=null;
+const money=n=>`${Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} ر.س`;
+const statusText={new:'جديد',confirmed:'مؤكد',follow_up:'متابعة',completed:'مكتمل',cancelled:'ملغي'};
+const esc=(v='')=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const sum=(a,k)=>a.reduce((s,x)=>s+Number(x[k]||0),0);
+function orderMoment(o){return o?.order_at||o?.created_at||new Date().toISOString()}
+function dayKey(v=new Date()){return new Date(v).toLocaleDateString('en-CA',{timeZone:'Asia/Riyadh'})}
+function riyadhParts(d=new Date()){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Riyadh',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(d);return Object.fromEntries(parts.map(x=>[x.type,x.value]))}
+function setOrderDateTimeNow(){const p=riyadhParts();if($('#orderDate'))$('#orderDate').value=`${p.year}-${p.month}-${p.day}`;if($('#orderTime'))$('#orderTime').value=`${p.hour}:${p.minute}`}
+function orderDateFromInputs(){const d=$('#orderDate')?.value,t=$('#orderTime')?.value;if(!d||!t)throw new Error('حددي تاريخ ووقت الطلب');const x=new Date(`${d}T${t}:00+03:00`);if(Number.isNaN(x.getTime()))throw new Error('تاريخ أو وقت الطلب غير صحيح');if(x.getTime()>Date.now()+10*60*1000)throw new Error('لا يمكن تسجيل الطلب بتاريخ مستقبلي');return x}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),3200)}
+function closeModal(){$('#modalRoot').innerHTML=''}function modal(title,body){$('#modalRoot').innerHTML=`<div class="modal-bg"><div class="modal"><div class="modal-head"><h3>${title}</h3><button class="close" onclick="closeModal()">✕</button></div>${body}</div></div>`}
+function go(name){$$('.page').forEach(x=>x.classList.remove('active'));$('#page-'+name)?.classList.add('active');$$('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===name));const t={dashboard:'لوحة التحكم','new-order':'إضافة طلب',orders:'الطلبات',customers:'العملاء',reports:'التقارير',employees:'الموظفات',catalog:'إدارة الخيارات',settings:'إعدادات الحساب'};$('#pageTitle').textContent=t[name]||'';$('#sidebar').classList.remove('open')}
+async function boot(){const s=await db.auth.getSession();if(!s.data.session)return;user=s.data.session.user;const p=await db.from('profiles').select('*').eq('id',user.id).single();if(p.error||!p.data?.active){await db.auth.signOut();return}profile=p.data;$('#loginView').classList.add('hidden');$('#appView').classList.remove('hidden');$('#sideName').textContent=profile.full_name;$('#topName').textContent=profile.full_name;$('#sideRole').textContent=profile.role==='admin'?'مدير النظام':'موظفة';if(profile.role!=='admin'){$$('.admin-only').forEach(x=>x.classList.add('hidden'));go('new-order')}await loadAll()}
+async function loadAll(){const [a,b,c,d,e,f]=await Promise.all([db.from('stores').select('*').order('name'),db.from('packages').select('*').order('package_value',{ascending:false}),db.from('offers').select('*').order('name'),db.from('orders').select('*').order('created_at',{ascending:false}).limit(1500),db.from('profiles').select('*').order('full_name'),db.from('payment_methods').select('*').order('sort_order').order('name')]);for(const r of [a,b,c,d,e])if(r.error)throw r.error;stores=a.data||[];packages=b.data||[];offers=c.data||[];orders=d.data||[];profiles=e.data||[];paymentMethodsReady=!f.error;paymentMethods=f.error?[{name:'إمكان',active:true},{name:'تابي',active:true},{name:'تمارا',active:true},{name:'نيو',active:true},{name:'تكامل نون',active:true},{name:'مدفوع',active:true}]:(f.data||[]);orders=orders.map(o=>({...o,storeObj:stores.find(s=>s.id===o.store_id),offerObj:offers.find(x=>x.id===o.offer_id),employeeObj:profiles.find(x=>x.id===o.employee_id)})).sort((x,y)=>new Date(orderMoment(y))-new Date(orderMoment(x)));fillSelects();render()}
+function fillSelects(){
+const activeStores=stores.filter(x=>x.active!==false),activePackages=packages.filter(x=>x.active!==false),activeOffers=offers.filter(x=>x.active!==false),activeMethods=paymentMethods.filter(x=>x.active!==false);
+const storeOptions=activeStores.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('');
+const hasOtherStore=activeStores.some(x=>x.name==='أخرى');
+$('#store').innerHTML='<option value="">اختر المتجر</option>'+storeOptions+(hasOtherStore?'':'<option value="other">أخرى</option>');
+$('#package').innerHTML='<option value="">أخرى</option>'+activePackages.map(x=>`<option value="${x.id}" data-v="${x.package_value}" data-i="${x.installments_total}">${x.package_value} ← ${x.installments_total}</option>`).join('');
+const wanted=['طلب جديد','عرض الطفرة','عرض يومي','عرض مسابقة'];
+const existingNames=new Set(activeOffers.map(x=>x.name));
+const dbOffers=activeOffers.map(x=>`<option value="${x.id}" ${x.name==='طلب جديد'?'selected':''}>${esc(x.name)}</option>`).join('');
+const fallback=wanted.filter(n=>!existingNames.has(n)).map(n=>`<option value="fallback:${n}" ${n==='طلب جديد'?'selected':''}>${n}</option>`).join('');
+$('#offer').innerHTML=dbOffers+fallback;
+$('#paymentMethod').innerHTML=activeMethods.length?activeMethods.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join(''):'<option value="">لا توجد طريقة دفع مفعلة</option>';
+}
+function render(){renderOrders();if(profile.role==='admin'){renderDashboard();renderEmployees();renderCustomers();renderCatalog();fillReportFilters();renderReports()}}
+function orderTable(rows,actions=true){
+ if(!rows.length)return '<div class="empty">لا توجد بيانات</div>';
+ const isAdmin=profile.role==='admin';
+ return `<div class="order-cards">${rows.map(o=>{
+  const hasFirst=o.has_first_payment===true&&Number(o.first_payment_amount||0)>0;
+  const noon=isNoonOrder(o),manual=Number(o.manual_profit);
+  const noonBox=isAdmin&&noon?(o.manual_profit==null
+   ? `<div class="noon-profit-editor"><b>ربح نون غير مسجل</b><input id="noon-profit-${o.id}" type="number" min="0" step=".01" placeholder="مبلغ الربح"><button class="btn primary sm" onclick="saveNoonProfit('${o.id}')">حفظ الربح</button></div>`
+   : `<div class="noon-profit-saved">ربح نون اليدوي: ${money(manual)} <button class="btn soft sm" style="margin-inline-start:8px" onclick="editNoonProfit('${o.id}',${manual})">تعديل</button></div>`):'';
+  const finance=isAdmin?`<div class="finance-strip"><div class="finance-box"><span>التحويل</span><b>${money(o.transfer_amount)}</b></div><div class="finance-box"><span>الرسوم</span><b>${money(o.service_fee)}</b></div><div class="finance-box"><span>الربح</span><b class="green">${money(o.net_profit)}</b></div></div>`:'';
+  return `<article class="order-card"><div class="order-card-head"><div><div class="order-customer">${esc(o.customer_name)}</div><div class="order-phone">${esc(o.customer_phone)}</div><div class="order-date">${formatDateTime12(orderMoment(o))}</div></div><div><div class="order-amount">${money(o.order_amount)}</div><span class="badge ${o.status}">${statusText[o.status]}</span></div></div><div class="order-card-grid"><div class="order-field"><span>الموظفة</span><b>${esc(o.employeeObj?.full_name||'—')}</b></div><div class="order-field"><span>المتجر</span><b>${esc(displayStoreName(o))}</b></div><div class="order-field"><span>طريقة الدفع</span><b>${esc(o.payment_method||'—')}</b></div><div class="order-field"><span>العرض</span><b>${esc(displayOfferName(o))}</b></div></div><div class="first-payment-strip ${hasFirst?'':'none'}">${hasFirst?`دفعنا دفعة أولى: ${money(o.first_payment_amount)} • ${esc(o.supervisor||'غير محدد')}`:'بدون دفعة أولى'}</div>${noonBox}${finance}<div class="order-card-footer"><span class="order-id">#${String(o.id).slice(0,8)}</span>${actions&&isAdmin?`<button class="btn danger sm" onclick="deleteOrder('${o.id}')">حذف</button>`:''}</div></article>`
+ }).join('')}</div>`
+}
+function renderOrders(){const q=($('#search')?.value||'').toLowerCase(),s=$('#filterStatus')?.value||'',f=$('#filterFirst')?.value||'';const rows=orders.filter(o=>(profile.role==='admin'||o.employee_id===user.id)&&(!s||o.status===s)&&(!f||(f==='yes'?o.has_first_payment===true:o.has_first_payment!==true))&&(!q||o.customer_name.toLowerCase().includes(q)||o.customer_phone.includes(q))).sort((a,b)=>new Date(orderMoment(b))-new Date(orderMoment(a)));if($('#ordersCount'))$('#ordersCount').textContent=`${rows.length} طلب`;$('#ordersTable').innerHTML=orderTable(rows)}
+async function saveNoonProfit(id){const input=$('#noon-profit-'+id),value=Number(input?.value);if(!Number.isFinite(value)||value<0)return toast('اكتبي مبلغ ربح صحيح');const r=await db.from('orders').update({manual_profit:value}).eq('id',id);if(r.error)return toast(r.error.message);toast('تم حفظ ربح نون');await loadAll()}
+function editNoonProfit(id,value){const card=[...document.querySelectorAll('.order-card')].find(x=>x.querySelector('.order-id')?.textContent.includes(String(id).slice(0,8)));const box=card?.querySelector('.noon-profit-saved');if(box)box.outerHTML=`<div class="noon-profit-editor"><b>تعديل ربح نون</b><input id="noon-profit-${id}" type="number" min="0" step=".01" value="${Number(value||0)}"><button class="btn primary sm" onclick="saveNoonProfit('${id}')">حفظ</button></div>`}
+function displayOfferName(o){if(o.offerObj?.name)return o.offerObj.name;const m=String(o.notes||'').match(/(?:^|\|\s*)العرض:\s*([^|]+)/);return m?.[1]?.trim()||'بدون عرض'}
+function displayStoreName(o){if(o.storeObj?.name)return o.storeObj.name;const m=String(o.notes||'').match(/(?:^|\|\s*)المتجر:\s*([^|]+)/);return m?.[1]?.trim()||'غير محدد'}
+function frequencyMap(rows,getName){const out={};rows.forEach(o=>{const n=getName(o)||'غير محدد';out[n]=(out[n]||0)+1});return out}
+function topOf(map){return Object.entries(map).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ar'))[0]||null}
+function distributionHTML(map,empty='لا توجد بيانات'){const entries=Object.entries(map).sort((a,b)=>b[1]-a[1]);if(!entries.length)return `<div class="empty">${empty}</div>`;const total=entries.reduce((s,x)=>s+x[1],0),max=entries[0][1]||1;return entries.map(([name,count])=>`<div class="distribution-row"><div class="distribution-line"><span>${esc(name)}</span><b>${count} طلب</b></div><div class="progress"><div class="progress-fill" style="width:${Math.max(5,count/max*100)}%"></div></div><small class="muted">${Math.round(count/total*100)}٪ من الطلبات</small></div>`).join('')}
+function renderDashboard(){
+ const allToday=orders.filter(o=>dayKey(orderMoment(o))===dayKey()),today=allToday.filter(o=>o.status!=='cancelled');
+ const phones=new Set(today.map(o=>o.customer_phone).filter(Boolean)),oldPhones=new Set(orders.filter(o=>dayKey(orderMoment(o))!==dayKey()).map(o=>o.customer_phone).filter(Boolean));
+ const firstPaymentRows=today.filter(o=>o.has_first_payment===true&&Number(o.first_payment_amount||0)>0),firstPaymentTotal=sum(firstPaymentRows,'first_payment_amount');
+ $('#kTransfer').textContent=money(sum(today,'transfer_amount'));$('#kFees').textContent=money(sum(today,'service_fee'));$('#kProfit').textContent=money(sum(today,'net_profit'));$('#kOrders').textContent=today.length;$('#kSales').textContent=money(sum(today,'order_amount'));$('#kCustomers').textContent=[...phones].filter(x=>!oldPhones.has(x)).length;$('#kFirstPayments').textContent=money(firstPaymentTotal);$('#kFirstPaymentOrders').textContent=firstPaymentRows.length;
+ const now=new Date();$('#dashboardDateLabel').textContent=now.toLocaleDateString('ar-SA',{timeZone:'Asia/Riyadh',weekday:'long',year:'numeric',month:'long',day:'numeric'});$('#lastUpdated').textContent='آخر تحديث '+now.toLocaleTimeString('ar-SA',{timeZone:'Asia/Riyadh',hour:'2-digit',minute:'2-digit'});
+ const supervisorStats={};firstPaymentRows.forEach(o=>{const name=(o.supervisor||'غير محدد').trim()||'غير محدد';if(!supervisorStats[name])supervisorStats[name]={count:0,amount:0};supervisorStats[name].count++;supervisorStats[name].amount+=Number(o.first_payment_amount||0)});
+ const supervisorNames=[...new Set(['مشرف 1','مشرف 2','مشرف 3',...Object.keys(supervisorStats)])];
+ $('#firstPaymentSummary').textContent=`${firstPaymentRows.length} طلب • ${money(firstPaymentTotal)}`;
+ $('#supervisorPayments').innerHTML=supervisorNames.map(name=>{const stat=supervisorStats[name]||{count:0,amount:0};return `<div class="supervisor-payment-card" onclick="showSupervisorPayments('${encodeURIComponent(name)}')"><div class="supervisor-payment-top"><b>${esc(name)}</b><span class="supervisor-payment-count">${stat.count} طلب</span></div><strong class="supervisor-payment-amount">${money(stat.amount)}</strong><div class="supervisor-payment-hint">اضغطي لعرض الطلبات</div></div>`}).join('');
+ const offerTop=topOf(frequencyMap(today,displayOfferName)),storeTop=topOf(frequencyMap(today,displayStoreName)),payTop=topOf(frequencyMap(today,o=>o.payment_method||'غير محدد'));
+ $('#bestOfferName').textContent=offerTop?.[0]||'—';$('#bestOfferMeta').textContent=offerTop?`${offerTop[1]} طلب اليوم`:'لا توجد طلبات اليوم';
+ $('#bestStoreName').textContent=storeTop?.[0]||'—';$('#bestStoreMeta').textContent=storeTop?`${storeTop[1]} عملية بيع`:'لا توجد مبيعات اليوم';
+ $('#topPaymentName').textContent=payTop?.[0]||'—';$('#topPaymentMeta').textContent=payTop?`${payTop[1]} طلب`:'لا توجد بيانات';
+ const employees=profiles.filter(x=>x.role==='employee'&&x.active!==false).map(e=>{const rows=today.filter(o=>o.employee_id===e.id);return {e,rows,count:rows.length,transfer:sum(rows,'transfer_amount'),profit:sum(rows,'net_profit')}}).sort((a,b)=>b.count-a.count||b.transfer-a.transfer||a.e.full_name.localeCompare(b.e.full_name,'ar'));
+ const topEmp=employees.find(x=>x.count>0);$('#topEmployeeName').textContent=topEmp?.e.full_name||'—';$('#topEmployeeMeta').textContent=topEmp?`${topEmp.count} طلب • ${money(topEmp.transfer)} تحويلات`:'لا توجد طلبات اليوم';
+ const maxCount=Math.max(1,...employees.map(x=>x.count));$('#employeeCards').innerHTML=employees.length?employees.map((x,i)=>`<div class="employee-rank-card" onclick="showEmployee('${x.e.id}')"><div class="employee-rank-top"><b>${esc(x.e.full_name)}</b><span class="rank-badge">${i+1}</span></div><div class="employee-orders">${x.count} <small style="font-size:12px;color:var(--muted)">طلب</small></div><div class="progress"><div class="progress-fill" style="width:${x.count?Math.max(7,x.count/maxCount*100):0}%"></div></div><div class="employee-substats"><span>التحويلات: ${money(x.transfer)}</span><span>الربح: ${money(x.profit)}</span></div></div>`).join(''):'<div class="empty">لا توجد موظفات</div>';
+ const statusOrder=['new','confirmed','follow_up','completed','cancelled'];$('#dailyStatus').innerHTML=statusOrder.map(s=>{const c=allToday.filter(o=>o.status===s).length;return `<div class="status-row"><span class="status-name"><i class="status-dot ${s}"></i>${statusText[s]}</span><b>${c}</b></div>`}).join('');
+ const avg=today.length?sum(today,'order_amount')/today.length:0,highest=today.length?Math.max(...today.map(o=>Number(o.transfer_amount||0))):0,cancelled=allToday.filter(o=>o.status==='cancelled').length,confirmed=allToday.filter(o=>o.status==='confirmed'||o.status==='completed').length;$('#dailyQuickStats').innerHTML=`<div class="quick-box"><span>متوسط قيمة الطلب</span><b>${money(avg)}</b></div><div class="quick-box"><span>أعلى تحويل</span><b>${money(highest)}</b></div><div class="quick-box"><span>مؤكد ومكتمل</span><b>${confirmed}</b></div><div class="quick-box"><span>طلبات ملغاة</span><b>${cancelled}</b></div>`;
+ $('#latestOrders').innerHTML=orderTable(allToday.slice(0,7),false)
+}
+function firstPaymentDetailTable(rows){if(!rows.length)return '<div class="empty">لا توجد دفعات أولى لهذا المشرف اليوم</div>';return `<div class="table-wrap"><table class="table" style="min-width:780px"><thead><tr><th>التاريخ</th><th>العميل</th><th>الموظفة</th><th>قيمة الطلب</th><th>الدفعة الأولى</th><th>المشرف</th><th>الحالة</th></tr></thead><tbody>${rows.map(o=>`<tr><td>${new Date(orderMoment(o)).toLocaleString('en-GB',{timeZone:'Asia/Riyadh'})}</td><td>${esc(o.customer_name)}<br><small class="muted">${esc(o.customer_phone)}</small></td><td>${esc(o.employeeObj?.full_name||'—')}</td><td>${money(o.order_amount)}</td><td class="orange"><b>${money(o.first_payment_amount)}</b></td><td>${esc(o.supervisor||'غير محدد')}</td><td><span class="badge ${o.status}">${statusText[o.status]}</span></td></tr>`).join('')}</tbody></table></div>`}
+function showSupervisorPayments(nameEncoded){const name=decodeURIComponent(nameEncoded),rows=orders.filter(o=>dayKey(orderMoment(o))===dayKey()&&o.status!=='cancelled'&&o.has_first_payment===true&&Number(o.first_payment_amount||0)>0&&((o.supervisor||'غير محدد').trim()||'غير محدد')===name),total=sum(rows,'first_payment_amount');modal(`دفعات اليوم: ${esc(name)}`,`<div class="summary4"><div class="card"><div class="kpi-title">عدد الطلبات</div><div class="kpi-value">${rows.length}</div></div><div class="card"><div class="kpi-title">إجمالي الدفعات</div><div class="kpi-value orange">${money(total)}</div></div></div>${firstPaymentDetailTable(rows)}`)}
+function showEmployee(id){const emp=profiles.find(x=>x.id===id),rows=orders.filter(o=>o.employee_id===id),today=rows.filter(o=>dayKey(orderMoment(o))===dayKey());modal(`تفاصيل الموظفة: ${esc(emp?.full_name||'—')}`,`<div class="summary4"><div class="card"><div class="kpi-title">طلبات اليوم</div><div class="kpi-value">${today.length}</div></div><div class="card"><div class="kpi-title">إجمالي الطلبات</div><div class="kpi-value">${rows.length}</div></div><div class="card"><div class="kpi-title">ربح اليوم</div><div class="kpi-value green">${money(sum(today,'net_profit'))}</div></div><div class="card"><div class="kpi-title">إجمالي الربح</div><div class="kpi-value green">${money(sum(rows,'net_profit'))}</div></div></div>${orderTable(rows,false)}`)}
+function showCustomer(phoneEncoded){const phone=decodeURIComponent(phoneEncoded),rows=orders.filter(o=>o.customer_phone===phone),name=rows[0]?.customer_name||phone;modal(`سجل العميل: ${esc(name)}`,`<div class="summary4"><div class="card"><div class="kpi-title">عدد الطلبات</div><div class="kpi-value">${rows.length}</div></div><div class="card"><div class="kpi-title">إجمالي قيمة الطلبات</div><div class="kpi-value">${money(sum(rows,'order_amount'))}</div></div><div class="card"><div class="kpi-title">إجمالي التحويلات</div><div class="kpi-value">${money(sum(rows,'transfer_amount'))}</div></div><div class="card"><div class="kpi-title">إجمالي الربح</div><div class="kpi-value green">${money(sum(rows,'net_profit'))}</div></div></div>${orderTable(rows,false)}`)}
+
+
+function fillReportFilters(){
+ const ep=$('#reportEmployee'),sp=$('#reportStore'),op=$('#reportOffer');
+ if(!ep||!sp||!op)return;
+ const ev=ep.value,sv=sp.value,ov=op.value;
+ ep.innerHTML='<option value="">كل الموظفات</option>'+profiles.filter(x=>x.role==='employee').map(x=>`<option value="${x.id}">${esc(x.full_name)}</option>`).join('');
+ sp.innerHTML='<option value="">كل المتاجر</option>'+stores.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('');
+ op.innerHTML='<option value="">كل العروض</option>'+offers.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('');
+ ep.value=ev;sp.value=sv;op.value=ov;
+}
+function reportDateRange(){
+ const preset=$('#reportPreset')?.value||'week',now=new Date(),from=new Date(),to=new Date();
+ to.setHours(23,59,59,999);
+ if(preset==='week'){from.setDate(now.getDate()-6);from.setHours(0,0,0,0)}
+ else if(preset==='month'){from.setDate(1);from.setHours(0,0,0,0)}
+ else if(preset==='year'){from.setMonth(0,1);from.setHours(0,0,0,0)}
+ else{
+   const fv=$('#reportFrom').value,tv=$('#reportTo').value;
+   if(fv){const x=new Date(fv+'T00:00:00');from.setTime(x.getTime())}
+   else{from.setDate(now.getDate()-6);from.setHours(0,0,0,0)}
+   if(tv){const x=new Date(tv+'T23:59:59');to.setTime(x.getTime())}
+ }
+ return {from,to,preset};
+}
+function renderReports(){
+ if(!$('#reportTable'))return;
+ const {from,to,preset}=reportDateRange(),eid=$('#reportEmployee')?.value||'',sid=$('#reportStore')?.value||'',oid=$('#reportOffer')?.value||'';
+ const rows=orders.filter(o=>{
+  const d=new Date(orderMoment(o));
+  return d>=from&&d<=to&&(!eid||o.employee_id===eid)&&(!sid||o.store_id===sid)&&(!oid||o.offer_id===oid);
+ });
+ $('#repOrders').textContent=rows.length;
+ $('#repSales').textContent=money(sum(rows,'order_amount'));
+ $('#repTransfers').textContent=money(sum(rows,'transfer_amount'));
+ $('#repFees').textContent=money(sum(rows,'service_fee'));
+ $('#repProfit').textContent=money(sum(rows,'net_profit'));
+ $('#reportRangeText').textContent=`${from.toLocaleDateString('en-GB')} - ${to.toLocaleDateString('en-GB')}`;
+ $('#reportTable').innerHTML=orderTable(rows,false);
+
+ const pm={};
+ rows.forEach(o=>{const p=packages.find(x=>x.id===o.package_id);const name=p?`${Number(p.package_value).toLocaleString('en-US')} → ${Number(p.installments_total).toLocaleString('en-US')}`:'أخرى';pm[name]=(pm[name]||0)+1});
+ const packageTop=topOf(pm),offerMap=frequencyMap(rows,displayOfferName),offerTop=topOf(offerMap),storeMap=frequencyMap(rows,displayStoreName),storeTop=topOf(storeMap);
+ $('#topPackage').innerHTML=`<span>الباقة الأكثر مبيعًا</span><strong>${packageTop?esc(packageTop[0])+' • '+packageTop[1]+' طلب':'—'}</strong>`;
+ $('#topReportOffer').innerHTML=`<span>العرض الأكثر استخدامًا</span><strong>${offerTop?esc(offerTop[0])+' • '+offerTop[1]+' طلب':'—'}</strong>`;
+ $('#topReportStore').innerHTML=`<span>المتجر الأعلى مبيعًا</span><strong>${storeTop?esc(storeTop[0])+' • '+storeTop[1]+' طلب':'—'}</strong>`;
+ $('#packageDistribution').innerHTML=distributionHTML(pm,'لا توجد باقات في هذه الفترة');
+ $('#reportStoreDistribution').innerHTML=distributionHTML(storeMap,'لا توجد متاجر في هذه الفترة');
+}
+function renderCustomers(){
+ const by={};
+ orders.forEach(o=>{
+   const k=o.customer_phone||o.customer_name;
+   if(!by[k]) by[k]={name:o.customer_name,phone:o.customer_phone,count:0,total:0,last:orderMoment(o)};
+   by[k].count++;by[k].total+=Number(o.order_amount||0);
+   if(new Date(orderMoment(o))>new Date(by[k].last))by[k].last=orderMoment(o);
+ });
+ const rows=Object.values(by).sort((a,b)=>new Date(b.last)-new Date(a.last));
+ $('#customersTable').innerHTML=rows.length?`<div class="table-wrap"><table class="table" style="min-width:650px"><thead><tr><th>العميل</th><th>الجوال</th><th>عدد الطلبات</th><th>إجمالي الطلبات</th><th>آخر طلب</th></tr></thead><tbody>${rows.map(x=>`<tr><td><span class="link" onclick="showCustomer('${encodeURIComponent(x.phone)}')">${esc(x.name)}</span></td><td>${esc(x.phone)}</td><td>${x.count}</td><td>${money(x.total)}</td><td>${new Date(x.last).toLocaleString('en-GB')}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">لا يوجد عملاء</div>';
+}
+function manageRows(rows,entity,labelFn,detailFn){if(!rows.length)return '<div class="empty">لا توجد عناصر</div>';const sorted=[...rows].sort((a,b)=>(b.active!==false)-(a.active!==false)||String(labelFn(a)).localeCompare(String(labelFn(b)),'ar'));return `<div class="manage-list">${sorted.map(x=>{const active=x.active!==false;return `<div class="manage-row ${active?'':'inactive'}"><div class="manage-info"><b>${esc(labelFn(x))}</b><small>${esc(detailFn(x))} ${active?'':'• محذوف من الخيارات الجديدة'}</small></div><div class="manage-actions"><button class="btn ${active?'danger':'soft'} sm" onclick="setActiveRecord('${entity}','${x.id}',${active?'false':'true'},'${encodeURIComponent(labelFn(x))}')">${active?'حذف':'استعادة'}</button></div></div>`}).join('')}</div>`}
+function renderEmployees(){const e=profiles.filter(x=>x.role==='employee'),active=e.filter(x=>x.active!==false),inactive=e.filter(x=>x.active===false);const section=(rows,isInactive)=>rows.length?`<div class="manage-list">${rows.map(x=>`<div class="manage-row ${isInactive?'inactive':''}"><div class="manage-info"><b>${esc(x.full_name)}</b><small>${orders.filter(o=>o.employee_id===x.id).length} طلب ${isInactive?'• محذوفة من الدخول':''}</small></div><div class="manage-actions"><button class="btn soft sm" onclick="showEmployee('${x.id}')">التفاصيل</button><button class="btn ${isInactive?'soft':'danger'} sm" onclick="setActiveRecord('employee','${x.id}',${isInactive?'true':'false'},'${encodeURIComponent(x.full_name)}')">${isInactive?'استعادة':'حذف'}</button></div></div>`).join('')}</div>`:'';$('#employeesTable').innerHTML=(section(active,false)||'<div class="empty">لا توجد موظفات نشطات</div>')+(inactive.length?`<div class="subhead">الموظفات المحذوفات — يمكن استعادتهن</div>${section(inactive,true)}`:'')}
+function renderCatalog(){if(!paymentMethodsReady)$('#paymentMethodsTable').innerHTML='<div class="error">شغّلي ملف SUPABASE_UPDATE_V8.sql مرة واحدة لتفعيل إدارة طرق الدفع.</div>';else $('#paymentMethodsTable').innerHTML=manageRows(paymentMethods,'payment_method',x=>x.name,x=>'طريقة دفع');$('#storesTable').innerHTML=manageRows(stores,'store',x=>x.name,x=>x.fee_type==='percent'?`رسوم ${x.fee_value}٪`:`رسوم ${money(x.fee_value)}`);$('#offersTable').innerHTML=manageRows(offers,'offer',x=>x.name,x=>'عرض');$('#packagesTable').innerHTML=manageRows(packages,'package',x=>`${money(x.package_value)} ← ${money(x.installments_total)}`,x=>'قيمة التحويل ← إجمالي الأقساط')}
+async function setActiveRecord(entity,id,active,labelEncoded){const label=decodeURIComponent(labelEncoded||'العنصر'),verb=active?'استعادة':'حذف';if(!confirm(`${verb} ${label}؟\nلن تتأثر الطلبات والتقارير القديمة.`))return;let r=await db.rpc('admin_set_active',{p_entity:entity,p_id:id,p_active:active});if(r.error){const tables={employee:'profiles',store:'stores',offer:'offers',package:'packages',payment_method:'payment_methods'},table=tables[entity];if(!table)return toast(r.error.message);r=await db.from(table).update({active}).eq('id',id)}if(r.error)return toast(r.error.message);await loadAll();toast(active?'تمت الاستعادة':'تم الحذف من الخيارات الجديدة')}
+function calc(){const pv=Number($('#packageValue').value||0),fp=$('#hasFirst').value==='true'?Number($('#firstAmount').value||0):0,cb=Number($('#cashback').value||0),amount=Number($('#orderAmount').value||0),transfer=Math.max(0,pv-fp+cb),method=$('#paymentMethod')?.value,store=stores.find(s=>s.id===$('#store')?.value),noon=selectedStoreIsNoon();let fee=noon?0:(method==='مدفوع'?100:(store?(store.fee_type==='percent'?amount*Number(store.fee_value||0)/100:Number(store.fee_value||0)):0));const profit=noon?Number($('#manualProfit')?.value||0):amount-transfer-fp-cb-fee;$('#transferPreview').textContent=money(transfer);$('#feePreview').textContent=money(fee);$('#profitPreview').textContent=money(profit)}
+async function deleteOrder(id){if(!confirm('حذف الطلب؟'))return;const r=await db.from('orders').delete().eq('id',id);if(r.error)return toast(r.error.message);await loadAll();toast('تم الحذف')}
+
+async function seedEmployees(){
+ const employees=[
+  {name:'سارة',email:'sara@fazaa.com',password:'Aa@12345'},
+  {name:'إسراء',email:'esraa@fazaa.com',password:'Aa@12345'},
+  {name:'مروة',email:'marwa@fazaa.com',password:'Aa@12345'},
+  {name:'أسماء',email:'asmaa@fazaa.com',password:'Aa@12345'},
+  {name:'صفية',email:'safia@fazaa.com',password:'Aa@12345'},
+  {name:'فاطمة',email:'fatimah@fazaa.com',password:'Aa@12345'},
+  {name:'نجد',email:'najd@fazaa.com',password:'Aa@12345'},
+  {name:'أم مهدي',email:'ummahdi@fazaa.com',password:'Aa@12345'}
+ ];
+ if(!confirm('سيتم إنشاء حسابات الموظفات الثماني بكلمة مرور مؤقتة موحّدة. متابعة؟'))return;
+ let ok=0,failed=[];
+ for(const emp of employees){
+   const temp=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+   const r=await temp.auth.signUp({email:emp.email,password:emp.password,options:{data:{full_name:emp.name,role:'employee'}}});
+   if(r.error){
+     if((r.error.message||'').toLowerCase().includes('already')) ok++;
+     else failed.push(emp.name+': '+r.error.message);
+   }else ok++;
+ }
+ await loadAll();
+ if(failed.length) modal('نتيجة التهيئة',`<p>تمت معالجة ${ok} حسابات.</p><div class="error">${failed.map(esc).join('<br>')}</div><p class="muted">إذا كان تأكيد البريد مفعّلًا في Supabase، عطّليه أو أكّدي الرسائل قبل تسجيل الدخول.</p>`);
+ else modal('تمت التهيئة',`<p>تم إنشاء أو التحقق من الحسابات الثمانية.</p><div class="table-wrap"><table class="table" style="min-width:600px"><thead><tr><th>الموظفة</th><th>البريد</th><th>كلمة المرور المؤقتة</th></tr></thead><tbody>${employees.map(e=>`<tr><td>${e.name}</td><td>${e.email}</td><td>${e.password}</td></tr>`).join('')}</tbody></table></div><p class="muted">كلمة المرور المؤقتة للجميع Aa@12345، ويجب تغييرها بعد أول دخول.</p>`);
+}
+function addEmployee(){modal('إضافة موظفة',`<form id="empForm" class="form-grid" style="grid-template-columns:1fr"><div class="field"><label>الاسم</label><input id="empName" required></div><div class="field"><label>البريد</label><input id="empEmail" type="email" required></div><div class="field"><label>كلمة مرور مؤقتة</label><input id="empPass" type="password" minlength="8" required></div><button class="btn primary">إنشاء الحساب</button></form>`);$('#empForm').onsubmit=async e=>{e.preventDefault();const temp=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false}}),r=await temp.auth.signUp({email:$('#empEmail').value,password:$('#empPass').value,options:{data:{full_name:$('#empName').value,role:'employee'}}});if(r.error)return toast(r.error.message);closeModal();toast('تم إنشاء الحساب');setTimeout(loadAll,1000)}}
+function simpleAdd(title,fields,table){modal(title,`<form id="simpleForm" class="form-grid" style="grid-template-columns:1fr">${fields.map(f=>`<div class="field"><label>${f.label}</label><input id="${f.id}" ${f.type?`type="${f.type}"`:''} required></div>`).join('')}<button class="btn primary">حفظ</button></form>`);$('#simpleForm').onsubmit=async e=>{e.preventDefault();const payload={};fields.forEach(f=>payload[f.key]=f.type==='number'?Number($('#'+f.id).value):$('#'+f.id).value);if(table==='stores'){payload.fee_type='percent';payload.active=true}if(table==='offers'||table==='packages'||table==='payment_methods')payload.active=true;if(table==='payment_methods')payload.sort_order=0;const r=await db.from(table).insert(payload);if(r.error)return toast(r.error.message);closeModal();await loadAll();toast('تم الحفظ')}}
+$('#loginForm').onsubmit=async e=>{e.preventDefault();let login=$('#email').value.trim().toLowerCase();const aliases={admin:'admin@fazaa.com',sara:'sara@fazaa.com',esraa:'esraa@fazaa.com',marwa:'marwa@fazaa.com',asmaa:'asmaa@fazaa.com',safia:'safia@fazaa.com',fatimah:'fatimah@fazaa.com',najd:'najd@fazaa.com',ummahdi:'ummahdi@fazaa.com'};const email=login.includes('@')?login:(aliases[login]||`${login}@fazaa.com`);const r=await db.auth.signInWithPassword({email,password:$('#password').value});if(r.error){$('#loginError').textContent=r.error.message;$('#loginError').classList.remove('hidden');return}await boot()};$('#logout').onclick=async()=>{await db.auth.signOut();location.reload()};$('#menu').onclick=()=>$('#sidebar').classList.toggle('open');$$('.nav button').forEach(x=>x.onclick=()=>go(x.dataset.page));$$('[data-go]').forEach(x=>x.onclick=()=>go(x.dataset.go));$('#refresh').onclick=loadAll;$('#search').oninput=renderOrders;$('#filterStatus').onchange=renderOrders;$('#filterFirst').onchange=renderOrders;
+$('#reportPreset').onchange=e=>{const custom=e.target.value==='custom';$('#reportFrom').classList.toggle('hidden',!custom);$('#reportTo').classList.toggle('hidden',!custom);if(!custom)renderReports()};
+$('#applyReport').onclick=renderReports;
+$('#package').onchange=e=>{const o=e.target.selectedOptions[0];if(e.target.value){$('#packageValue').value=o.dataset.v;$('#installments').value=o.dataset.i}else{$('#packageValue').value='';$('#installments').value=''}calc()};$('#hasFirst').onchange=e=>{const yes=e.target.value==='true';$('#firstBox').classList.toggle('hidden',!yes);$('#supervisorBox').classList.toggle('hidden',!yes);if(!yes){$('#firstAmount').value=0;$('#supervisor').value=''}calc()};$('#status').onchange=e=>$('#receiptBox').classList.toggle('hidden',e.target.value!=='confirmed');['packageValue','firstAmount','cashback','orderAmount'].forEach(x=>$('#'+x).oninput=calc);$('#store').onchange=toggleManualProfit;$('#paymentMethod').onchange=calc;$('#manualProfit').oninput=calc;
+$('#orderForm').onsubmit=async e=>{e.preventDefault();const b=$('#saveOrder');b.disabled=true;b.textContent='جاري الحفظ...';try{const selectedOrderAt=orderDateFromInputs();const file=$('#receipt').files[0];if($('#status').value==='confirmed'&&!file)throw new Error('الإيصال مطلوب عند تأكيد الطلب');if(selectedStoreIsNoon()&&($('#manualProfit').value===''||Number($('#manualProfit').value)<0))throw new Error('اكتبي ربح نون تكامل اليدوي');let receipt_path=null;if(file){receipt_path=`${user.id}/${Date.now()}-${file.name.replace(/[^\w.\-]/g,'_')}`;const up=await db.storage.from('receipts').upload(receipt_path,file);if(up.error)throw up.error}const has=$('#hasFirst').value==='true',payload={employee_id:user.id,order_at:selectedOrderAt.toISOString(),customer_name:$('#customerName').value.trim(),customer_phone:$('#customerPhone').value.trim(),store_id:$('#store').value==='other'?null:$('#store').value,payment_method:$('#paymentMethod').value,package_id:$('#package').value||null,offer_id:($('#offer').value||'').startsWith('fallback:')?null:($('#offer').value||null),order_amount:Number($('#orderAmount').value),package_value:Number($('#packageValue').value||0),installments_total:Number($('#installments').value||0),has_first_payment:has,first_payment_amount:has?Number($('#firstAmount').value||0):0,supervisor:has?$('#supervisor').value:null,cashback_amount:Number($('#cashback').value||0),status:$('#status').value,manual_profit:selectedStoreIsNoon()?Number($('#manualProfit').value):null,notes:[
+$('#notes').value||'',
+($('#store').value==='other'?'المتجر: أخرى':''),
+(($('#offer').value||'').startsWith('fallback:')?'العرض: '+$('#offer').value.replace('fallback:',''):'')
+].filter(Boolean).join(' | ')||null,receipt_path};const r=await db.from('orders').insert(payload);if(r.error)throw r.error;toast('تم حفظ الطلب');e.target.reset();fillSelects();setOrderDateTimeNow();$('#firstBox').classList.add('hidden');$('#supervisorBox').classList.add('hidden');$('#receiptBox').classList.add('hidden');$('#manualProfitBox').classList.add('hidden');calc();await loadAll();go('orders')}catch(x){toast(x.message)}finally{b.disabled=false;b.textContent='حفظ الطلب'}};
+$('#seedEmployees').onclick=seedEmployees;$('#addEmployee').onclick=addEmployee;$('#addStore').onclick=()=>simpleAdd('إضافة متجر',[{label:'اسم المتجر',id:'x1',key:'name'},{label:'نسبة الرسوم',id:'x2',key:'fee_value',type:'number'}],'stores');$('#addOffer').onclick=()=>simpleAdd('إضافة عرض',[{label:'اسم العرض',id:'x1',key:'name'}],'offers');$('#addPackage').onclick=()=>simpleAdd('إضافة باقة',[{label:'قيمة الباقة',id:'x1',key:'package_value',type:'number'},{label:'إجمالي الأقساط',id:'x2',key:'installments_total',type:'number'}],'packages');$('#addPaymentMethod').onclick=()=>simpleAdd('إضافة طريقة دفع',[{label:'اسم طريقة الدفع',id:'x1',key:'name'}],'payment_methods');
+
+let deferredInstallPrompt=null;
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true}
+function hideInstallButtons(){['installApp','installAppLogin'].forEach(id=>document.getElementById(id)?.classList.add('hidden'))}
+function showInstallGuide(){
+ const isiOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+ const title='تثبيت تطبيق فزعة';
+ const body=isiOS
+ ? `<p class="muted">على الآيفون يتم التثبيت من Safari:</p><div class="install-steps"><div class="install-step"><b>1</b><span>افتحي الرابط في <strong>Safari</strong>.</span></div><div class="install-step"><b>2</b><span>اضغطي زر <strong>المشاركة</strong> أسفل الشاشة.</span></div><div class="install-step"><b>3</b><span>اختاري <strong>إضافة إلى الشاشة الرئيسية</strong> ثم <strong>إضافة</strong>.</span></div></div>`
+ : `<p class="muted">من قائمة المتصفح اختاري <strong>تثبيت التطبيق</strong> أو <strong>إضافة إلى الشاشة الرئيسية</strong>.</p>`;
+ modal(title,body);
+}
+async function installFazaaApp(){
+ if(isStandalone()){toast('التطبيق مثبت ويعمل الآن');return}
+ if(deferredInstallPrompt){
+   deferredInstallPrompt.prompt();
+   await deferredInstallPrompt.userChoice;
+   deferredInstallPrompt=null;
+   hideInstallButtons();
+ }else showInstallGuide();
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e});
+window.addEventListener('appinstalled',()=>{hideInstallButtons();toast('تم تثبيت تطبيق فزعة بنجاح')});
+function updateNetworkStatus(){
+ const el=document.getElementById('networkStatus');if(!el)return;
+ if(navigator.onLine){el.textContent='متصل';el.className='online-pill online';setTimeout(()=>el.classList.add('hidden'),1800)}
+ else{el.textContent='لا يوجد اتصال';el.className='online-pill offline'}
+}
+window.addEventListener('online',updateNetworkStatus);window.addEventListener('offline',updateNetworkStatus);
+
+$('#passwordForm').onsubmit=async e=>{e.preventDefault();const r=await db.auth.updateUser({password:$('#newPassword').value});if(r.error)return toast(r.error.message);e.target.reset();toast('تم تغيير كلمة المرور')};document.addEventListener('DOMContentLoaded',()=>{setOrderDateTimeNow();const d=new Date();$('#dateText').textContent=d.toLocaleDateString('en-GB',{dateStyle:'full'});document.getElementById('installApp')?.addEventListener('click',installFazaaApp);document.getElementById('installAppLogin')?.addEventListener('click',installFazaaApp);if(isStandalone())hideInstallButtons();updateNetworkStatus();if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});boot().catch(e=>toast(e.message))});
+</script>
+</body></html>

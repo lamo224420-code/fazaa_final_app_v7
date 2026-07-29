@@ -1,0 +1,67 @@
+{
+  "version": "8.2.0-first-payment-dashboard",
+  "built": "2026-07-28",
+  "type": "Progressive Web App",
+  "features": [
+    "safe catalog deactivation and restore",
+    "payment method management",
+    "editable order date and time",
+    "official Fazaa branding and social preview",
+    "daily first-payment totals and order count",
+    "first-payment breakdown by supervisor with drill-down details"
+  ],
+  "files": {
+    "index.html": {
+      "bytes": 72773,
+      "sha256": "2c00f2f3751f9ab7536cdd56083fdbd89552a14fae56c1323d73f7063723d713"
+    },
+    "manifest.webmanifest": {
+      "bytes": 1722,
+      "sha256": "a91fc83e0e5217e3cd504e7241333f180f9c413af1897efe74e80a5088d086b9"
+    },
+    "sw.js": {
+      "bytes": 1935,
+      "sha256": "ca2d638bd9055d39cd64d002cf57e209d5e71f9291e061dad3976d1ab41540d1"
+    },
+    "offline.html": {
+      "bytes": 1311,
+      "sha256": "85647bb958847fc1255ce1ad6489259d739e9556b5d1a774f4a285ed644c92fa"
+    },
+    "vercel.json": {
+      "bytes": 932,
+      "sha256": "9a4b9494b44dfbaabeb986b968edffb7e38558dc643ee2f9776f92e5e7460b66"
+    },
+    "VERSION.txt": {
+      "bytes": 41,
+      "sha256": "168c1811f7e96459ef4f844e8c44b753ee86eded6a4d29de074901d77d1100a8"
+    },
+    "SUPABASE_UPDATE_V8.sql": {
+      "bytes": 3489,
+      "sha256": "36e77914f1cf5fa577a294fab386ba8e4f666790c2b5adec06ac21f496fb5168"
+    },
+    "FIRST_PAYMENT_DASHBOARD_UPDATE_AR.txt": {
+      "bytes": 1060,
+      "sha256": "b9e30d25035f91367f1939cd364b995f74519758beaec427debae5466169271e"
+    },
+    "assets/fazaa-logo-full.png": {
+      "bytes": 333790,
+      "sha256": "f518a491464733409640b70e65b927e8ef9f05c41677f54d4c34479f6a8ac7f0"
+    },
+    "assets/fazaa-logo-symbol.png": {
+      "bytes": 339073,
+      "sha256": "53fc8eb4782e0dcdf40812d53f708a3c15c8e025a2c2d983bab059b48d131fb9"
+    },
+    "assets/og-image.png": {
+      "bytes": 97260,
+      "sha256": "eeedfa11ead5734ef20c5e2acae224adec5eb525433b3f04ec4068b3798faa4f"
+    },
+    "icons/icon-192.png": {
+      "bytes": 25212,
+      "sha256": "19530bd2ba21123325cbb7c12c6f7de851dab1187a80d315f9d3e1cf7407766e"
+    },
+    "icons/icon-512.png": {
+      "bytes": 120199,
+      "sha256": "7b0fb45c85b9c8b79f83830b2b0631ef2f26aabb2454bbe2bce31672f81c857b"
+    }
+  }
+}
